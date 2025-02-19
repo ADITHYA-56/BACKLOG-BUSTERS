@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .box {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .box div {
+            flex: 1;
+            margin: 0 10px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #35424a;
+            color: #ffffff;
+        }
+        .form-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Personal Finance Manager</h1>
+</header>
+
+<div class="container">
+    <div class="box">
+        <div>
+            <h2>Income vs Expenses</h2>
+            <canvas id="incomeExpensesChart"></canvas>
+        </div>
+        <div>
+            <h2>Expense by Category</h2>
+            <canvas id="expenseCategoryChart"></canvas>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <h2>Add Income / Expense</h2>
+        <input type="number" id="amount" placeholder="Amount" />
+        <select id="type">
+            <option value="Income">Income</option>
+            <option value="Expense">Expense</option>
+        </select>
+        <select id="category">
+            <option value="Salary">Salary</option>
+            <option value="Groceries">Groceries</option>
+            <option value="Rent">Rent</option>
+            <option value="Entertainment">Entertainment</option>
+        </select>
+        <button onclick="addTransaction()">Add Transaction</button>
+    </div>
+</div>
+
+<footer>
+    <p>Hi! What can I help you with?</p>
+</footer>
+
+<script>
+    let totalIncome = 0;
+    let totalExpenses = 0;
+
+    const incomeExpensesChart = new Chart(document.getElementById('incomeExpensesChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Total Income', 'Total Expenses'],
+            datasets: [{
+                label: 'Amount (₹)',
+                data: [totalIncome, totalExpenses],
+                backgroundColor: ['green', 'red']
+            }]
+        }
+    });
+
+    const expenseCategoryChart = new Chart(document.getElementById('expenseCategoryChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Salary', 'Groceries', 'Rent', 'Entertainment'],
+            datasets: [{
+                label: 'Expenses',
+                data: [0, 0, 0, 0], // These values will be updated dynamically
+                backgroundColor: ['#FFCE56', '#36A2EB', '#FF6384', '#4BC0C0']
+            }]
+        }
+    });
+
+    function addTransaction() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        const type = document.getElementById('type').value;
+
+        if (type === 'Income') {
+            totalIncome += amount;
+        } else {
+            totalExpenses += amount;
+        }
+
+        incomeExpensesChart.data.datasets[0].data[0] = totalIncome;
+        incomeExpensesChart.data.datasets[0].data[1] = totalExpenses;
+        incomeExpensesChart.update();
+
+        // Update expense categories dynamically based on user selection (simplified)
+        let categoryIndex = document.getElementById('category').selectedIndex;
+        expenseCategoryChart.data.datasets[0].data[categoryIndex] += amount; // This is a naive approach
+        expenseCategoryChart.update();
+
+        // Clear the input fields
+        document.getElementById('amount').value = '';
+    }
+</script>
+
+</body>
+</html>
