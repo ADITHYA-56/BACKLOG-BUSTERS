@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Manager</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <h2>Login to Your Account</h2>
+        <input type="text" id="username" placeholder="user">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div class="dashboard-container" id="dashboardContainer" style="display: none;">
+        <div class="summary-cards">
+            <div class="card">
+                <h3>Total Income</h3>
+                <h2>₹<span id="totalIncome">0</span></h2>
+            </div>
+            <div class="card">
+                <h3>Total Expenses</h3>
+                <h2>₹<span id="totalExpenses">0</span></h2>
+            </div>
+            <div class="card">
+                <h3>Net Balance</h3>
+                <h2>₹<span id="netBalance">0</span></h2>
+            </div>
+        </div>
+
+        <div class="input-sections">
+            <div class="transaction-section">
+                <h3>Add Income / Expense</h3>
+                <input type="number" id="amount" placeholder="Amount">
+                <select id="type">
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+                <select id="category">
+                    <option value="salary">Salary</option>
+                    <option value="groceries">Groceries</option>
+                    <option value="rent">Rent</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="bills">Bills</option>
+                    <option value="shopping">Shopping</option>
+                    <option value="travel">Travel</option>
+                    <option value="healthcare">Healthcare</option>
+                    <option value="education">Education</option>
+                    <option value="others">Others</option>
+                </select>
+                <button onclick="addTransaction()">Add Transaction</button>
+            </div>
+
+            <div class="goals-section">
+                <h3>Set Savings Goal</h3>
+                <input type="number" id="savingsGoal" placeholder="Enter your savings goal">
+                <button onclick="setSavingsGoal()">Set Goal</button>
+                <p>Goal Progress: <span id="goalProgress">0</span>%</p>
+            </div>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart">
+                <h3>Income vs Expenses</h3>
+                <canvas id="incomeExpenseChart"></canvas>
+            </div>
+            <div class="chart">
+                <h3>Expense by Category</h3>
+                <canvas id="expenseCategoryChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gemini AI Chat Interface -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header">
+            <h3>Financial Assistant</h3>
+            <button onclick="toggleChat()" class="toggle-chat">×</button>
+        </div>
+        <div id="messages" class="chat-messages">
+            <p class='ai-message'><strong>Assistant:</strong> Hello! I'm your financial assistant. How can I help you today?</p>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Ask about your finances...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <button class="chat-button" onclick="toggleChat()">
+        <span class="chat-icon">💬</span>
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
